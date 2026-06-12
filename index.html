@@ -125,6 +125,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 .cmpt td.tdn { position:sticky; left:0; z-index:1; text-align:left; white-space:normal; min-width:120px; max-width:120px; background:var(--sur); border-right:1px solid var(--bdm); line-height:1.4; color:var(--t1); font-weight:500; font-size:12px; }
 .cmpt tr:last-child td { border-bottom:none; }
 .cmpt td.vw { color:var(--p); font-weight:700; }
+.cmpt td.v-done { color:var(--grn); font-weight:600; }
 .cmpt td.ve { color:var(--t3); }
 .cmpt td.vr { color:var(--red); font-size:11px; }
 .cmpt .sr td { background:var(--pll) !important; color:var(--p) !important; font-weight:700; font-size:11px; padding:5px 10px; border-bottom:.5px solid var(--bdm) !important; }
@@ -293,7 +294,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   <div class="ptabs">
     <button class="ptab on" data-plan="upper" onclick="switchPlan('upper')">上肢</button>
     <button class="ptab" data-plan="lower" onclick="switchPlan('lower')">臀腿</button>
-    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足底+核心</button>
+    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足踝+核心</button>
   </div>
   <div id="plan-container" style="margin-top:12px;"></div>
   <div style="padding:16px 16px 8px;">
@@ -319,7 +320,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
     <button class="htab htab-sum on" data-ht="summary" onclick="switchHTab('summary')">📅 总计</button>
     <button class="htab" data-ht="upper" onclick="switchHTab('upper')">上肢</button>
     <button class="htab" data-ht="lower" onclick="switchHTab('lower')">臀腿</button>
-    <button class="htab" data-ht="core" onclick="switchHTab('core')">足底+核心</button>
+    <button class="htab" data-ht="core" onclick="switchHTab('core')">足踝+核心</button>
   </div>
   <div id="hist-container"></div>
 </div>
@@ -368,7 +369,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
       <select class="fs" id="edit-log-plan">
         <option value="upper">上肢</option>
         <option value="lower">臀腿</option>
-        <option value="core">足底+核心</option>
+        <option value="core">足踝+核心</option>
       </select>
     </div>
     <div class="fg"><label class="flbl">日期</label><input class="fi" type="date" id="edit-log-date"></div>
@@ -386,17 +387,17 @@ const DEF_PROJS = ['墨菲私教','居家训练','瑜伽','复德康复','骑行
 const PRESET_PROJ = [
   {name:'墨菲私教',count:14,total:3879},{name:'居家训练',count:6,total:1027},
   {name:'瑜伽',count:5,total:287},{name:'复德康复',count:2,total:299},
-  {name:'骑行',count:8,total:20},{name:'攀岩',count:1,total:49},
+  {name:'攀岩',count:1,total:49},{name:'骑行',count:8,total:20},
   {name:'团课',count:2,total:0},{name:'徒步',count:5,total:0},
   {name:'FitnessBoxing',count:4,total:0},{name:'Ringfit',count:3,total:0},
 ];
 const PRESET_MONTH = [
-  {m:'1月',c:7},{m:'2月',c:5},{m:'3月',c:14},{m:'4月',c:16},{m:'5月',c:6},{m:'6月',c:3},
+  {m:'1月',c:7},{m:'2月',c:5},{m:'3月',c:14},{m:'4月',c:16},{m:'5月',c:5},{m:'6月',c:3},
 ];
 const PRESET_AMT = 5561, PRESET_CNT = 51;
 
 const WOPTS = [
-  {v:'',l:'重量/强度（选填）'},{v:'o（完成）',l:'o（完成）'},{v:'/',l:'/ 未进行'},
+  {v:'',l:'重量/强度（选填）'},{v:'o（完成）',l:'o（完成）'},
   {v:'2.7kg',l:'2.7kg'},{v:'4.0kg',l:'4.0kg'},{v:'5.5kg',l:'5.5kg'},
   {v:'6.8kg',l:'6.8kg'},{v:'8.2kg',l:'8.2kg'},{v:'9.5kg',l:'9.5kg'},{v:'10.9kg',l:'10.9kg'},
   {v:'2.7kgx2',l:'2.7kg×2'},{v:'4.0kgx2',l:'4.0kg×2'},{v:'5.5kgx2',l:'5.5kg×2'},
@@ -413,56 +414,60 @@ const PLANS = {
       {id:'u3',no:'1.3',name:'肩袖｜头举杠铃片',sets:'2组',rm:'60s',ref:'10–15kg',tips:''},
     ]},
     { title:'胸背超级组', exs:[
-      {id:'u4',no:'3.1',name:'背-上｜肩伸｜头顶上拉壶铃（仰+轴/靠凳，直腿勾脚臀桥态）',sets:'3组',rm:'15RM',ref:'5kg',tips:''},
-      {id:'u5',no:'3.2',name:'胸｜肩水平收｜仰卧胸部飞鸟（双脚勾脚尖上举）',sets:'3组',rm:'15RM',ref:'2.5kg×2',tips:''},
-      {id:'u6',no:'4.1',name:'背-下｜肩伸+肩内收｜引体向上（只动肩胛骨版）',sets:'3组',rm:'10RM',ref:'',tips:'进阶：标准引体向上'},
+      {id:'u4',no:'3.1',name:'背-上｜肩伸｜头顶上拉壶铃',sets:'3组',rm:'15RM',ref:'5kg',tips:'仰+轴/靠凳，直腿勾脚臀桥态'},
+      {id:'u5',no:'3.2',name:'胸｜肩水平收｜仰卧胸部飞鸟',sets:'3组',rm:'15RM',ref:'2.5kg×2',tips:'双脚勾脚尖上举'},
+      {id:'u6',no:'4.1',name:'背-下｜肩伸+肩内收｜引体向上',sets:'3组',rm:'10RM',ref:'',tips:'只动肩胛骨版，进阶：标准引体向上'},
       {id:'u7',no:'4.2',name:'胸｜肩屈+肩水平收｜TRX俯卧撑 / 俯卧撑',sets:'3组',rm:'15RM',ref:'',tips:''},
-      {id:'u8',no:'5.1',name:'背-下｜肩伸｜TRX划船',sets:'3组',rm:'15RM',ref:'',tips:'进阶：飞鸟(划船转十字)→单臂划船转体→平板支撑壶铃划船'},
-      {id:'u9',no:'5.2',name:'肩-中｜肩屈｜面向墙下蹲壶铃上举（夹肘/肩胛稳定）',sets:'3组',rm:'15RM',ref:'4kg×2',tips:''},
+      {id:'u8',no:'5.1',name:'背-下｜肩伸｜TRX划船',sets:'3组',rm:'15RM',ref:'',tips:'进阶：飞鸟划船转十字→单臂划船转体→平板支撑壶铃划船'},
+      {id:'u9',no:'5.2',name:'肩-中｜肩屈｜面向墙下蹲壶铃上举',sets:'3组',rm:'15RM',ref:'4kg×2',tips:'夹肘/肩胛稳定'},
       {id:'u10',no:'6.',name:'肩-后｜肩水平展｜单腿俯身屈髋后踩墙飞鸟',sets:'2组',rm:'12RM',ref:'2.5kg×2',tips:''},
       {id:'u11',no:'7.1',name:'肱三｜颈后臂屈伸 / TRX站姿直臂向前俯身',sets:'3组',rm:'15RM',ref:'5kg',tips:''},
-      {id:'u12',no:'7.2',name:'背-下/握力｜双手Y字上举握力器 [头后抗阻瑜伽球]',sets:'3组',rm:'50RM',ref:'(40kg)',tips:''},
+      {id:'u12',no:'7.2',name:'背-下/握力｜双手Y字上举握力器',sets:'3组',rm:'50RM',ref:'(40kg)',tips:'头后抗阻瑜伽球'},
     ]},
   ]},
   lower: { label:'臀腿', sections:[
     { title:'激活组', exs:[
-      {id:'l1',no:'1.1',name:'大腿前侧｜勾脚抬腿（仰）[两脚弹力带抗阻]',sets:'2组',rm:'30RM',ref:'弹力带/4KG壶铃×2',tips:''},
-      {id:'l2',no:'1.2',name:'小腿前侧｜勾绷脚背（仰）[两脚弹力带抗阻]\n小腿后侧｜TRX前斜板提踵下压\n大腿前侧（教练版）｜勾脚抬腿 mix 对侧腿上举（仰）/ 踝下泡沫轴（坐）',sets:'2组',rm:'30RM',ref:'弹力带',tips:''},
-      {id:'l3',no:'2.1',name:'臀+后侧｜TRX臀桥腿弯举（仰）/ 臀桥髋外展对抗 [膝盖带]',sets:'3组',rm:'15RM',ref:'弹力带/普拉提圈',tips:''},
+      {id:'l1',no:'1.1',name:'大腿前侧｜勾脚抬腿（仰）',sets:'2组',rm:'30RM',ref:'弹力带/4KG壶铃×2',tips:'两脚弹力带抗阻'},
+      {id:'l2',no:'1.2',name:'小腿前侧｜勾绷脚背（仰）',sets:'2组',rm:'30RM',ref:'弹力带',tips:'两脚弹力带抗阻'},
+      {id:'l2b',no:'1.3',name:'小腿后侧｜TRX前斜板提踵下压',sets:'2组',rm:'30RM',ref:'弹力带',tips:''},
+      {id:'l3',no:'2.1',name:'臀+后侧｜TRX臀桥腿弯举（仰）/ 臀桥髋外展对抗',sets:'3组',rm:'15RM',ref:'弹力带/普拉提圈',tips:'膝盖带'},
       {id:'l4',no:'2.2',name:'臀外｜四足支撑提膝髋外展（俯）',sets:'3组',rm:'30RM',ref:'弹力带',tips:''},
-      {id:'l5',no:'3.',name:'核心｜双手上举坐后仰（Y字坐/踩地坐）[脚趾带/膝盖带]',sets:'2组',rm:'30s',ref:'4kg→可负重',tips:''},
+      {id:'l5',no:'3.',name:'核心｜双手上举坐后仰',sets:'2组',rm:'30s',ref:'4kg→可负重',tips:'Y字坐/踩地坐，脚趾带/膝盖带'},
     ]},
     { title:'硬拉类', exs:[
-      {id:'l6',no:'4.',name:'拉｜单腿硬拉 [脚趾带]',sets:'3组',rm:'20RM',ref:'',tips:'进阶：分腿→两点支撑→扶墙→标准→节奏→低点强化'},
-      {id:'l7',no:'*',name:'摆｜壶铃摇摆 [脚趾/脚踝带]',sets:'3组',rm:'30RM',ref:'12kg',tips:''},
-      {id:'l8',no:'*',name:'跪｜跪姿抗阻伸髋（双手前平举/前举药球）\n站｜后蹬墙+手压壶铃静态支撑',sets:'',rm:'',ref:'',tips:''},
+      {id:'l6',no:'4.',name:'拉｜单腿硬拉',sets:'3组',rm:'20RM',ref:'',tips:'脚趾带，进阶：分腿→两点支撑→扶墙→标准→节奏→低点强化'},
+      {id:'l7',no:'4.*',name:'摆｜壶铃摇摆',sets:'3组',rm:'30RM',ref:'12kg',tips:'脚趾/脚踝带'},
+      {id:'l8',no:'4.*',name:'跪｜跪姿抗阻伸髋\n站｜后蹬墙+手压壶铃静态支撑',sets:'',rm:'',ref:'',tips:'双手前平举/前举药球'},
     ]},
     { title:'深蹲类', exs:[
-      {id:'l9',no:'5.',name:'蹲｜壶铃负重深蹲（胸前/颈后）[脚趾带/膝盖带]',sets:'3组',rm:'15RM',ref:'12kg',tips:''},
-      {id:'l10',no:'*',name:'弓箭｜单腿弓箭步 [前侧脚踝弹力带向前阻力辅助→脚趾带] / TRX屈膝礼蹲',sets:'2组',rm:'15RM',ref:'6kg',tips:''},
-      {id:'l11',no:'*',name:'站｜站姿贴墙静态后蹲 / 俯身屈髋静态站姿 [脚趾/膝盖带]',sets:'',rm:'',ref:'',tips:''},
+      {id:'l9',no:'5.',name:'蹲｜壶铃负重深蹲',sets:'3组',rm:'15RM',ref:'12kg',tips:'胸前/颈后，脚趾带/膝盖带'},
+      {id:'l10',no:'5.*',name:'弓箭｜单腿弓箭步 / TRX屈膝礼蹲',sets:'2组',rm:'15RM',ref:'6kg',tips:'前侧脚踝弹力带向前阻力辅助→脚趾带'},
+      {id:'l11',no:'5.*',name:'站｜站姿贴墙静态后蹲 / 俯身屈髋静态站姿',sets:'',rm:'',ref:'',tips:'脚趾/膝盖带'},
     ]},
     { title:'臀推类', exs:[
       {id:'l12',no:'7.',name:'推｜单腿臀推 / 杠铃臀推',sets:'2组',rm:'15RM',ref:'50–60kg',tips:'⚠️ 5.18记录：右腿推左腰痛，注意'},
     ]},
     { title:'臀外展 / 臀内收', exs:[
-      {id:'l13',no:'8.',name:'外侧｜侧向走 [脚趾/膝盖带]',sets:'3组',rm:'50步×2',ref:'弹力带抗阻',tips:''},
-      {id:'l14',no:'*',name:'外侧｜侧平板抬腿 / 卧侧后方踢腿',sets:'',rm:'',ref:'',tips:''},
-      {id:'l15',no:'9.',name:'内侧｜TRX内收肌盆底肌训练（单腿站立另侧侧向打开）',sets:'2组',rm:'15RM×2',ref:'',tips:''},
+      {id:'l13',no:'8.',name:'外侧｜侧向走',sets:'3组',rm:'50步×2',ref:'弹力带抗阻',tips:'脚趾/膝盖带'},
+      {id:'l14',no:'8.*',name:'外侧｜侧平板抬腿 / 卧侧后方踢腿',sets:'',rm:'',ref:'',tips:''},
+      {id:'l15',no:'9.',name:'内侧｜TRX内收肌盆底肌训练',sets:'2组',rm:'15RM×2',ref:'',tips:'单腿站立另侧侧向打开'},
     ]},
   ]},
-  core: { label:'足底+核心', sections:[
+  core: { label:'足踝+核心', sections:[
     { title:'足底', exs:[
       {id:'f1',no:'',name:'足｜欧阳春晓10min',sets:'1组',rm:'/',ref:'',tips:''},
+    ]},
+    { title:'踝灵活', exs:[
+      {id:'a1',no:'',name:'踝｜90-90变式',sets:'1组',rm:'15min',ref:'',tips:''},
     ]},
     { title:'核心', exs:[
       {id:'c1',no:'1.',name:'下腹｜凳上脚踝夹普拉提圈向上卷腹',sets:'2组',rm:'15RM',ref:'',tips:''},
       {id:'c2',no:'2.',name:'侧腹｜侧平板壶铃上举支撑',sets:'2组',rm:'30s',ref:'4kg',tips:''},
-      {id:'c3',no:'3.',name:'TRX健腹轮式',sets:'2组',rm:'15RM',ref:'',tips:''},
-      {id:'c4',no:'4.',name:'核心｜双腿夹球45°上举（仰）',sets:'2组',rm:'30s',ref:'',tips:''},
-      {id:'c5',no:'5.',name:'核心｜四足支撑左右交替手蹬腿（俯）/ 死虫式核心（仰）',sets:'2组',rm:'30s',ref:'',tips:''},
-      {id:'c6',no:'6.',name:'TRX长矛（倒V折叠回平板支撑）',sets:'2组',rm:'15RM',ref:'',tips:''},
-      {id:'c7',no:'7.',name:'TRX平板卷腹（平板支撑后卷腹后蹬腿）',sets:'2组',rm:'15RM',ref:'',tips:''},
+      {id:'c3',no:'3.',name:'TRX健腹轮式',sets:'2组',rm:'15RM',ref:'',tips:'跪姿',tipsWarn:true},
+      {id:'c4',no:'4.',name:'双腿夹球45°上举（仰）（可选）',sets:'2组',rm:'30s',ref:'',tips:''},
+      {id:'c5',no:'5.',name:'四足支撑左右交替手蹬腿（俯）/ 死虫式核心（仰）',sets:'2组',rm:'30s',ref:'',tips:''},
+      {id:'c6',no:'6.',name:'TRX长矛',sets:'2组',rm:'15RM',ref:'',tips:'倒V折叠回平板支撑',tipsWarn:true},
+      {id:'c7',no:'7.',name:'TRX平板卷腹',sets:'2组',rm:'15RM',ref:'',tips:'平板支撑后卷腹后蹬腿',tipsWarn:true},
     ]},
   ]},
 };
@@ -512,12 +517,11 @@ const PRESET_LOGS = [
 ];
 
 // ═══ STORAGE ═══
-// 12 historical checkin records with specific dates (already included in PRESET_PROJ totals)
+// 11 historical checkin records for calendar display only (5月7日团课excluded — correction not a real session)
 const PRESET_CHECKINS = [
   {id:'pc-0422-1',date:'2026-04-22T10:00:00',project:'骑行',    amount:0},
   {id:'pc-0422-2',date:'2026-04-22T11:00:00',project:'瑜伽',    amount:66},
   {id:'pc-0424-1',date:'2026-04-24T10:00:00',project:'墨菲私教',amount:300},
-  {id:'pc-0507-1',date:'2026-05-07T10:00:00',project:'团课',    amount:0},
   {id:'pc-0508-1',date:'2026-05-08T10:00:00',project:'骑行',    amount:5},
   {id:'pc-0511-1',date:'2026-05-11T10:00:00',project:'居家训练',amount:222},
   {id:'pc-0513-1',date:'2026-05-13T10:00:00',project:'居家训练',amount:727},
@@ -654,15 +658,22 @@ function saveCheckin() {
   ci.unshift({id:Date.now(),date:new Date().toISOString(),project:proj,amount:amt});
   SS('checkins',ci);
   closeModal(); renderCheckin(); renderCiCal();
+  // also refresh manage list if open
 }
 
 // ═══ RENDER: PLAN ═══
 let curPlan='upper';
 function lastW(eid) {
+  // Returns last real weight (kg values), skips completion markers
+  const skipVals = new Set(['','/','/（未进行）','o（完成）','o','两点支撑','两点/扶墙','划船']);
   for(const log of getLogs()){
     if(!log.results) continue;
     const r=log.results.find(x=>x.id===eid);
-    if(r && r.weight && r.weight!=='/' && r.weight!=='o（完成）' && r.weight!=='') return r.weight+(r.note&&r.note!=='/'?r.note:'');
+    if(r && r.weight && !skipVals.has(r.weight)) {
+      // append note if meaningful
+      const note = r.note && r.note!=='/' ? r.note : '';
+      return r.weight + note;
+    }
   }
   return null;
 }
@@ -671,6 +682,31 @@ function switchPlan(k) {
   curPlan=k;
   document.querySelectorAll('.ptab').forEach(b=>b.classList.toggle('on',b.dataset.plan===k));
   renderPlan();
+}
+
+// Extract 【content】 and （content） from name string into tips array
+function extractBrackets(name) {
+  const tips = [];
+  // Extract 【...】
+  const re1 = /【([^】]+)】/g;
+  let m;
+  while((m=re1.exec(name))!==null) tips.push(m[1]);
+  // Extract （...）
+  const re2 = /（([^）]+)）/g;
+  while((m=re2.exec(name))!==null) tips.push(m[1]);
+  // Remove them from display name
+  const cleanName = name.replace(/【[^】]+】/g,'').replace(/（[^）]+）/g,'').trim();
+  return {cleanName, tips};
+}
+
+function onWeightChange(sel) {
+  if(sel.value==='') {
+    sel.style.color='var(--t3)';
+    sel.style.fontWeight='400';
+  } else {
+    sel.style.color='var(--p)';
+    sel.style.fontWeight='700';
+  }
 }
 
 function renderPlan() {
@@ -683,13 +719,25 @@ function renderPlan() {
       const lw=lastW(ex.id);
       const refStr = lw ? `<span class="ref">上次：${lw}</span>` : (ex.ref?`<span class="ref">参考：${ex.ref}</span>`:'');
       const meta = [ex.sets&&ex.rm?`${ex.sets} · ${ex.rm}`:(ex.sets||ex.rm||''), refStr].filter(Boolean).join('　');
-      const noLabel = ex.no ? `<span style="color:var(--p);font-weight:700;margin-right:4px;">${ex.no}</span>` : '';
+      const noLabel = ex.no && ex.no!=='*' ? `<span style="color:var(--p);font-weight:700;margin-right:4px;">${ex.no}</span>` : '';
+      // Extract brackets from name for yellow tips
+      const {cleanName, tips: bracketTips} = extractBrackets(ex.name);
+      const displayName = cleanName.replace(/\n/g,'<br>');
+      // Build tips lines
+      let tipsHtml = '';
+      if(ex.tips) {
+        const tipClass = ex.tipsWarn ? 'tip' : 'tip';
+        tipsHtml += `<div class="ex-hint"><span class="tip">${ex.tips}</span></div>`;
+      }
+      bracketTips.forEach(t => {
+        tipsHtml += `<div class="ex-hint"><span class="tip">${t}</span></div>`;
+      });
       h+=`<div class="ex">
-        <div class="ex-nm">${noLabel}${ex.name.replace(/\n/g,'<br>')}</div>
+        <div class="ex-nm">${noLabel}${displayName}</div>
         ${meta?`<div class="ex-hint">${meta}</div>`:''}
-        ${ex.tips?`<div class="ex-hint"><span class="tip">${ex.tips}</span></div>`:''}
+        ${tipsHtml}
         <div class="ex-inp">
-          <select class="fs" id="ew-${ex.id}" style="font-size:13px;padding:8px 10px;">${wsel}</select>
+          <select class="fs" id="ew-${ex.id}" style="font-size:13px;padding:8px 10px;color:var(--t3);" onchange="onWeightChange(this)">${wsel}</select>
           <input class="fi sm" type="text" id="en-${ex.id}" placeholder="备注">
         </div>
       </div>`;
@@ -704,7 +752,7 @@ function saveRec() {
     const w=document.getElementById('ew-'+ex.id)?.value||'';
     const n=document.getElementById('en-'+ex.id)?.value.trim()||'';
     if(w||n) hasInput=true;
-    results.push({id:ex.id,weight:w||'/（未进行）',note:n});
+    results.push({id:ex.id,weight:w||'',note:n}); // empty = not performed
   }));
   if(!hasInput){alert('请至少填写一个动作');return;}
   const logs=getLogs().filter(l=>!String(l.id).startsWith('p-'));
@@ -721,13 +769,16 @@ function saveRec() {
 }
 
 function autoCheckinHome() {
-  const ci = getRawCheckins();
-  // Only add once per day
   const todayKey = new Date().toISOString().slice(0,10);
+  // Check both preset and user checkins for today
   const alreadyToday = getCheckins().some(c => c.project==='居家训练' && c.date.startsWith(todayKey));
   if(alreadyToday) return;
+  const ci = getRawCheckins();
   ci.unshift({id: Date.now(), date: new Date().toISOString(), project:'居家训练', amount:0});
   SS('checkins', ci);
+  // Refresh all checkin displays
+  renderCheckin();
+  renderCiCal();
 }
 
 // ═══ RENDER: HISTORY ═══
@@ -739,8 +790,8 @@ function switchHTab(t){
 }
 
 function fmtCell(w,note) {
-  // Never show "o（完成）" in comparison table — show only weight values
-  if(!w||w==='/'||w==='/（未进行）'||w==='o（完成）') return {txt:'—',cls:'ve'};
+  if(!w||w===''||w==='/'||w==='/（未进行）') return {txt:'—',cls:'ve'};
+  if(w==='o（完成）'||w==='o') return {txt:'O',cls:'v-done'};
   const display = (note && note!=='/' && note!=='') ? w+note : w;
   return {txt:display, cls:'vw'};
 }
@@ -795,7 +846,7 @@ function renderSummary() {
     if(!dateMap[key].includes(l.plan)) dateMap[key].push(l.plan);
   });
 
-  const tagLabel={upper:'上肢',lower:'臀腿',core:'足底+核心'};
+  const tagLabel={upper:'上肢',lower:'臀腿',core:'足踝+核心'};
   const tagCls={upper:'ctag-upper',lower:'ctag-lower',core:'ctag-core'};
 
   const today=new Date();
@@ -824,7 +875,7 @@ function renderSummary() {
   h+=`<div class="cal-legend">
     <div class="cl-item"><div class="cl-dot" style="background:#EDE9FB;border:.5px solid #C4B5FD;"></div>上肢</div>
     <div class="cl-item"><div class="cl-dot" style="background:#FEF3E6;border:.5px solid #FBD38D;"></div>臀腿</div>
-    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足底+核心</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足踝+核心</div>
   </div>`;
 
   // DOW headers
