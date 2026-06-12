@@ -106,6 +106,8 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 .ex-inp { display:flex; gap:8px; margin-top:8px; }
 .ex-inp .fs { flex:1.2; font-size:13px; padding:8px 10px; }
 .ex-inp .fi { flex:1; }
+.ex-inp .fi::placeholder { color:var(--t3); }
+.ex-inp .fs.unset { color:var(--t3); }
 
 /* history tabs */
 .htabs { display:flex; gap:8px; padding:14px 16px 0; flex-wrap:wrap; }
@@ -394,7 +396,7 @@ const PRESET_PROJ = [
 const PRESET_MONTH = [
   {m:'1月',c:7},{m:'2月',c:5},{m:'3月',c:14},{m:'4月',c:16},{m:'5月',c:5},{m:'6月',c:3},
 ];
-const PRESET_AMT = 5561, PRESET_CNT = 51;
+const PRESET_AMT = 5561, PRESET_CNT = 50;
 
 const WOPTS = [
   {v:'',l:'重量/强度（选填）'},{v:'o（完成）',l:'o（完成）'},
@@ -458,16 +460,15 @@ const PLANS = {
       {id:'f1',no:'',name:'足｜欧阳春晓10min',sets:'1组',rm:'/',ref:'',tips:''},
     ]},
     { title:'踝灵活', exs:[
-      {id:'a1',no:'',name:'踝｜90-90变式',sets:'1组',rm:'15min',ref:'',tips:''},
+      {id:'a1',no:'',name:'踝｜90-90变式 15min',sets:'1组',rm:'/',ref:'',tips:''},
     ]},
     { title:'核心', exs:[
       {id:'c1',no:'1.',name:'下腹｜凳上脚踝夹普拉提圈向上卷腹',sets:'2组',rm:'15RM',ref:'',tips:''},
       {id:'c2',no:'2.',name:'侧腹｜侧平板壶铃上举支撑',sets:'2组',rm:'30s',ref:'4kg',tips:''},
       {id:'c3',no:'3.',name:'TRX健腹轮式',sets:'2组',rm:'15RM',ref:'',tips:'跪姿',tipsWarn:true},
       {id:'c4',no:'4.',name:'双腿夹球45°上举（仰）（可选）',sets:'2组',rm:'30s',ref:'',tips:''},
-      {id:'c5',no:'5.',name:'四足支撑左右交替手蹬腿（俯）/ 死虫式核心（仰）',sets:'2组',rm:'30s',ref:'',tips:''},
-      {id:'c6',no:'6.',name:'TRX长矛',sets:'2组',rm:'15RM',ref:'',tips:'倒V折叠回平板支撑',tipsWarn:true},
-      {id:'c7',no:'7.',name:'TRX平板卷腹',sets:'2组',rm:'15RM',ref:'',tips:'平板支撑后卷腹后蹬腿',tipsWarn:true},
+      {id:'c6',no:'5.',name:'TRX长矛',sets:'2组',rm:'15RM',ref:'',tips:'倒V折叠回平板支撑',tipsWarn:true},
+      {id:'c7',no:'6.',name:'TRX平板卷腹',sets:'2组',rm:'15RM',ref:'',tips:'平板支撑后卷腹后蹬腿',tipsWarn:true},
     ]},
   ]},
 };
@@ -723,15 +724,14 @@ function renderPlan() {
       // Extract brackets from name for yellow tips
       const {cleanName, tips: bracketTips} = extractBrackets(ex.name);
       const displayName = cleanName.replace(/\n/g,'<br>');
-      // Build tips lines
+      // Build tips — all on one line, comma separated
       let tipsHtml = '';
-      if(ex.tips) {
-        const tipClass = ex.tipsWarn ? 'tip' : 'tip';
-        tipsHtml += `<div class="ex-hint"><span class="tip">${ex.tips}</span></div>`;
+      const allTips = [];
+      if(ex.tips) allTips.push(ex.tips);
+      bracketTips.forEach(t => allTips.push(t));
+      if(allTips.length) {
+        tipsHtml = `<div class="ex-hint"><span class="tip">${allTips.join('，')}</span></div>`;
       }
-      bracketTips.forEach(t => {
-        tipsHtml += `<div class="ex-hint"><span class="tip">${t}</span></div>`;
-      });
       h+=`<div class="ex">
         <div class="ex-nm">${noLabel}${displayName}</div>
         ${meta?`<div class="ex-hint">${meta}</div>`:''}
