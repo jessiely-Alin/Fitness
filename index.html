@@ -296,7 +296,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   <div class="ptabs">
     <button class="ptab on" data-plan="upper" onclick="switchPlan('upper')">上肢</button>
     <button class="ptab" data-plan="lower" onclick="switchPlan('lower')">臀腿</button>
-    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足踝+核心</button>
+    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足髋+核心</button>
   </div>
   <div id="plan-container" style="margin-top:12px;"></div>
   <div style="padding:16px 16px 8px;">
@@ -322,7 +322,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
     <button class="htab htab-sum on" data-ht="summary" onclick="switchHTab('summary')">📅 总计</button>
     <button class="htab" data-ht="upper" onclick="switchHTab('upper')">上肢</button>
     <button class="htab" data-ht="lower" onclick="switchHTab('lower')">臀腿</button>
-    <button class="htab" data-ht="core" onclick="switchHTab('core')">足踝+核心</button>
+    <button class="htab" data-ht="core" onclick="switchHTab('core')">足髋+核心</button>
   </div>
   <div id="hist-container"></div>
 </div>
@@ -371,7 +371,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
       <select class="fs" id="edit-log-plan">
         <option value="upper">上肢</option>
         <option value="lower">臀腿</option>
-        <option value="core">足踝+核心</option>
+        <option value="core">足髋+核心</option>
       </select>
     </div>
     <div class="fg"><label class="flbl">日期</label><input class="fi" type="date" id="edit-log-date"></div>
@@ -455,12 +455,12 @@ const PLANS = {
       {id:'l15',no:'9.',name:'内侧｜TRX内收肌盆底肌训练',sets:'2组',rm:'15RM×2',ref:'',tips:'单腿站立另侧侧向打开'},
     ]},
   ]},
-  core: { label:'足踝+核心', sections:[
+  core: { label:'足髋+核心', sections:[
     { title:'足底', exs:[
       {id:'f1',no:'',name:'足｜欧阳春晓10min',sets:'1组',rm:'/',ref:'',tips:''},
     ]},
-    { title:'踝灵活', exs:[
-      {id:'a1',no:'',name:'踝｜90-90变式 15min',sets:'1组',rm:'/',ref:'',tips:''},
+    { title:'髋灵活', exs:[
+      {id:'a1',no:'',name:'髋｜90-90变式 15min',sets:'1组',rm:'/',ref:'',tips:''},
     ]},
     { title:'核心', exs:[
       {id:'c1',no:'1.',name:'下腹｜凳上脚踝夹普拉提圈向上卷腹',sets:'2组',rm:'15RM',ref:'',tips:''},
@@ -846,7 +846,7 @@ function renderSummary() {
     if(!dateMap[key].includes(l.plan)) dateMap[key].push(l.plan);
   });
 
-  const tagLabel={upper:'上肢',lower:'臀腿',core:'足踝+核心'};
+  const tagLabel={upper:'上肢',lower:'臀腿',core:'足髋+核心'};
   const tagCls={upper:'ctag-upper',lower:'ctag-lower',core:'ctag-core'};
 
   const today=new Date();
@@ -875,7 +875,7 @@ function renderSummary() {
   h+=`<div class="cal-legend">
     <div class="cl-item"><div class="cl-dot" style="background:#EDE9FB;border:.5px solid #C4B5FD;"></div>上肢</div>
     <div class="cl-item"><div class="cl-dot" style="background:#FEF3E6;border:.5px solid #FBD38D;"></div>臀腿</div>
-    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足踝+核心</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足髋+核心</div>
   </div>`;
 
   // DOW headers
