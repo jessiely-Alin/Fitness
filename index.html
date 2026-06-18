@@ -24,7 +24,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 
 /* header */
 .hdr { background:var(--sur); padding:18px 20px 14px; border-bottom:.5px solid var(--bd); position:sticky; top:0; z-index:10; }
-.hdr h1 { font-size:22px; font-weight:700; color:var(--p); letter-spacing:-.3px; margin:0; }
+.hdr h1 { font-size:22px; font-weight:700; color:var(--p); letter-spacing:-.3px; }
 .hdr .sub { font-size:13px; color:var(--t3); margin-top:2px; }
 
 /* nav */
@@ -141,6 +141,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 .sum-dates { font-size:11px; color:var(--t3); margin-top:3px; line-height:1.5; }
 .sum-cnt { font-size:20px; font-weight:700; color:var(--p); }
 
+
 /* ── Calendar ── */
 .cal-nav { display:flex; align-items:center; justify-content:space-between; padding:14px 20px 8px; }
 .cal-nav .cal-title { font-size:16px; font-weight:700; color:var(--p); }
@@ -191,24 +192,46 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 
 /* edit/delete list items */
 .rec-list { margin:12px 16px 0; }
-.rec-item { background:var(--sur); border:.5px solid var(--bd); border-radius:12px; margin-bottom:8px; overflow:hidden; }
-.rec-item-hdr { display:flex; justify-content:space-between; align-items:center; padding:11px 14px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.rec-item {
+  background:var(--sur); border:.5px solid var(--bd); border-radius:12px;
+  margin-bottom:8px; overflow:hidden;
+}
+.rec-item-hdr {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:11px 14px; cursor:pointer; -webkit-tap-highlight-color:transparent;
+}
 .rec-item-hdr:active { background:var(--pll); }
 .rec-main { font-size:14px; font-weight:600; color:var(--t1); }
 .rec-sub  { font-size:11px; color:var(--t3); margin-top:2px; }
 .rec-amt  { font-size:14px; font-weight:700; color:var(--amb); margin-right:8px; }
 .rec-chevron { font-size:14px; color:var(--t3); transition:transform .2s; }
 .rec-chevron.open { transform:rotate(180deg); }
-.rec-actions { display:none; border-top:.5px solid var(--bd); padding:10px 14px; gap:8px; background:var(--pll); }
+.rec-actions {
+  display:none; border-top:.5px solid var(--bd);
+  padding:10px 14px; gap:8px; background:var(--pll);
+}
 .rec-actions.open { display:flex; }
-.btn-edit { flex:1; padding:8px; background:var(--p); color:#fff; border:none; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
-.btn-del { flex:1; padding:8px; background:var(--redl); color:var(--red); border:.5px solid rgba(192,57,43,.2); border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; }
+.btn-edit {
+  flex:1; padding:8px; background:var(--p); color:#fff;
+  border:none; border-radius:8px; font-size:13px; font-weight:600;
+  cursor:pointer; font-family:inherit;
+}
+.btn-del {
+  flex:1; padding:8px; background:var(--redl); color:var(--red);
+  border:.5px solid rgba(192,57,43,.2); border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:inherit;
+}
 /* edit modal */
 .edit-row { display:flex; gap:8px; margin-bottom:12px; }
 .edit-row .fi, .edit-row .fs { flex:1; }
 
 /* table total row */
-.tbl-total td { background:var(--pl); font-weight:700; border-top:.5px solid var(--bdm) !important; border-bottom:none !important; color:var(--p) !important; }
+.tbl-total td { 
+  background:var(--pl); font-weight:700; 
+  border-top:.5px solid var(--bdm) !important;
+  border-bottom:none !important;
+  color:var(--p) !important;
+}
 .tbl-total td.tc { color:var(--p) !important; }
 
 /* badge */
@@ -222,17 +245,15 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
 </style>
 </head>
 <body>
-<div id="loading" style="position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;color:var(--p);font-weight:700;flex-direction:column;gap:12px;">
-  <div style="font-size:24px;">🏃</div>
-  <div>加载本地数据中...</div>
-</div>
-
 <div id="app">
 <div class="scroll" id="sc">
 
+<!-- PAGE 打卡 -->
 <div class="page active" id="page-checkin">
   <div class="hdr"><h1>健身打卡</h1><div class="sub" id="today-str"></div></div>
 
+  <!-- 年度100次目标 -->
+  <!-- 数据工具栏 -->
   <div class="data-bar">
     <button class="btn-export" onclick="exportData()">📤 导出数据备份</button>
     <label class="btn-import" style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
@@ -251,12 +272,15 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
     </div>
   </div>
 
+  <!-- 打卡日历 -->
   <div class="slbl">打卡日历</div>
   <div class="ci-cal-wrap" id="ci-cal-container"></div>
 
+  <!-- 月度统计 -->
   <div class="slbl">月度统计（2026年）</div>
   <div class="mgrid" id="month-grid"></div>
 
+  <!-- 项目统计 -->
   <div class="slbl">项目统计</div>
   <div class="card" style="margin:0 16px 16px;">
     <table class="tbl">
@@ -266,12 +290,13 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   </div>
 </div>
 
+<!-- PAGE 记录 -->
 <div class="page" id="page-record">
   <div class="hdr"><h1>训练记录</h1><div class="sub" id="rec-date"></div></div>
   <div class="ptabs">
     <button class="ptab on" data-plan="upper" onclick="switchPlan('upper')">上肢</button>
     <button class="ptab" data-plan="lower" onclick="switchPlan('lower')">臀腿</button>
-    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足髋+核心</button>
+    <button class="ptab" data-plan="core" onclick="switchPlan('core')">足踝+核心</button>
   </div>
   <div id="plan-container" style="margin-top:12px;"></div>
   <div style="padding:16px 16px 8px;">
@@ -279,16 +304,9 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   </div>
 </div>
 
+<!-- PAGE 管理数据 -->
 <div class="page" id="page-manage">
-  <div class="hdr">
-    <div style="display:flex; align-items:center; gap:8px;">
-      <button onclick="go('history')" style="background:none;border:none;font-size:26px;color:var(--p);cursor:pointer;padding-right:4px;">‹</button>
-      <div>
-        <h1 style="font-size:22px; font-weight:700; color:var(--p); margin:0;">管理数据</h1>
-        <div class="sub">编辑或删除记录</div>
-      </div>
-    </div>
-  </div>
+  <div class="hdr"><h1>管理数据</h1><div class="sub">编辑或删除记录</div></div>
   <div class="ptabs" style="padding:14px 16px 0;">
     <button class="ptab on" data-mt="checkin" onclick="switchManageTab('checkin')">打卡数据</button>
     <button class="ptab" data-mt="training" onclick="switchManageTab('training')">训练数据</button>
@@ -297,26 +315,30 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   <div id="log-edit-list" style="margin-top:4px;display:none;"></div>
 </div>
 
+<!-- PAGE 历史训练 -->
 <div class="page" id="page-history">
   <div class="hdr"><h1>历史训练</h1><div class="sub">横向对比视图</div></div>
   <div class="htabs">
     <button class="htab htab-sum on" data-ht="summary" onclick="switchHTab('summary')">📅 总计</button>
     <button class="htab" data-ht="upper" onclick="switchHTab('upper')">上肢</button>
     <button class="htab" data-ht="lower" onclick="switchHTab('lower')">臀腿</button>
-    <button class="htab" data-ht="core" onclick="switchHTab('core')">足髋+核心</button>
+    <button class="htab" data-ht="core" onclick="switchHTab('core')">足踝+核心</button>
   </div>
   <div id="hist-container"></div>
 </div>
 
-</div><nav class="nav">
+</div><!-- scroll -->
+
+<nav class="nav">
   <button class="nb on" id="nav-checkin" onclick="go('checkin')"><span class="ni">🏅</span><span class="nl">打卡</span></button>
   <button class="nb" id="nav-record" onclick="go('record')"><span class="ni">🏋️</span><span class="nl">记录</span></button>
   <button class="nb" id="nav-history" onclick="go('history')"><span class="ni">📊</span><span class="nl">历史</span></button>
+  <button class="nb" id="nav-manage" onclick="go('manage')"><span class="ni">✏️</span><span class="nl">管理</span></button>
 </nav>
 
 <button class="fab" id="fab" onclick="openModal()">+</button>
-<button class="fab" id="fab-manage" onclick="go('manage')" style="display:none; background:var(--t2);">✏️</button>
 
+<!-- 打卡 modal -->
 <div class="overlay" id="modal">
   <div class="sheet">
     <div class="mtitle"><span>添加打卡记录</span><button class="mclose" onclick="closeModal()">✕</button></div>
@@ -326,7 +348,9 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
     <button class="btnp" onclick="saveCheckin()">确认打卡 ✓</button>
   </div>
 </div>
+</div>
 
+<!-- 编辑打卡 modal -->
 <div class="overlay" id="edit-ci-modal">
   <div class="sheet">
     <div class="mtitle"><span>编辑打卡记录</span><button class="mclose" onclick="closeEditCi()">✕</button></div>
@@ -338,6 +362,7 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
   </div>
 </div>
 
+<!-- 编辑训练记录 modal -->
 <div class="overlay" id="edit-log-modal">
   <div class="sheet">
     <div class="mtitle"><span>编辑训练记录</span><button class="mclose" onclick="closeEditLog()">✕</button></div>
@@ -346,20 +371,33 @@ html,body { height:100%; background:var(--bg); font-family:-apple-system,BlinkMa
       <select class="fs" id="edit-log-plan">
         <option value="upper">上肢</option>
         <option value="lower">臀腿</option>
-        <option value="core">足髋+核心</option>
+        <option value="core">足踝+核心</option>
       </select>
     </div>
     <div class="fg"><label class="flbl">日期</label><input class="fi" type="date" id="edit-log-date"></div>
     <button class="btnp" onclick="saveEditLog()">保存修改</button>
   </div>
 </div>
-</div>
 
 <script>
-// ═══ GLOBAL DATA ═══
-let BUDGET, GOAL, DEF_PROJS, PRESET_PROJ, PRESET_MONTH, PRESET_AMT, PRESET_CNT, PLANS, PRESET_LOGS, PRESET_CHECKINS;
-
+// ═══ CONSTANTS ═══
+const BUDGET = 10000, GOAL = 100;
 const WDS = ['日','一','二','三','四','五','六'];
+
+const DEF_PROJS = ['墨菲私教','居家训练','瑜伽','复德康复','骑行','攀岩','团课','徒步','FitnessBoxing','Ringfit'];
+
+const PRESET_PROJ = [
+  {name:'墨菲私教',count:14,total:3879},{name:'居家训练',count:6,total:1027},
+  {name:'瑜伽',count:5,total:287},{name:'复德康复',count:2,total:299},
+  {name:'攀岩',count:1,total:49},{name:'骑行',count:8,total:20},
+  {name:'团课',count:2,total:0},{name:'徒步',count:5,total:0},
+  {name:'FitnessBoxing',count:4,total:0},{name:'Ringfit',count:3,total:0},
+];
+const PRESET_MONTH = [
+  {m:'1月',c:7},{m:'2月',c:5},{m:'3月',c:14},{m:'4月',c:16},{m:'5月',c:5},{m:'6月',c:3},
+];
+const PRESET_AMT = 5561, PRESET_CNT = 50;
+
 const WOPTS = [
   {v:'',l:'重量/强度（选填）'},{v:'o（完成）',l:'o（完成）'},
   {v:'2.7kg',l:'2.7kg'},{v:'4.0kg',l:'4.0kg'},{v:'5.5kg',l:'5.5kg'},
@@ -369,43 +407,134 @@ const WOPTS = [
 ];
 const wsel = WOPTS.map(o=>`<option value="${o.v}">${o.l}</option>`).join('');
 
-// ═══ DATA INITIALIZATION ═══
-async function initApp() {
-  try {
-    const res = await fetch('data.json');
-    if(!res.ok) throw new Error('Network response was not ok');
-    const data = await res.json();
-    
-    BUDGET = data.BUDGET;
-    GOAL = data.GOAL;
-    DEF_PROJS = data.DEF_PROJS;
-    PRESET_PROJ = data.PRESET_PROJ;
-    PRESET_MONTH = data.PRESET_MONTH;
-    PRESET_AMT = data.PRESET_AMT;
-    PRESET_CNT = data.PRESET_CNT;
-    PLANS = data.PLANS;
-    PRESET_LOGS = data.PRESET_LOGS;
-    PRESET_CHECKINS = data.PRESET_CHECKINS;
+// ═══ PLANS ═══
+const PLANS = {
+  upper: { label:'上肢', sections:[
+    { title:'激活组', exs:[
+      {id:'u1',no:'1.1',name:'外旋｜TRX双手向后侧外旋拉绳前倾拉伸',sets:'2组',rm:'60s',ref:'',tips:'前倾拉伸，双臂后侧外旋'},
+      {id:'u2',no:'1.2',name:'斜方｜双侧垂提壶铃',sets:'2组',rm:'60s',ref:'16KG壶铃×2',tips:'可mix头向后压球抗阻 [脚趾/膝盖带]'},
+      {id:'u3',no:'1.3',name:'肩袖｜头举杠铃片',sets:'2组',rm:'60s',ref:'10–15kg',tips:''},
+    ]},
+    { title:'胸背超级组', exs:[
+      {id:'u4',no:'3.1',name:'背-上｜肩伸｜头顶上拉壶铃',sets:'3组',rm:'15RM',ref:'5kg',tips:'仰+轴/靠凳，直腿勾脚臀桥态'},
+      {id:'u5',no:'3.2',name:'胸｜肩水平收｜仰卧胸部飞鸟',sets:'3组',rm:'15RM',ref:'2.5kg×2',tips:'双脚勾脚尖上举'},
+      {id:'u6',no:'4.1',name:'背-下｜肩伸+肩内收｜引体向上',sets:'3组',rm:'10RM',ref:'',tips:'只动肩胛骨版，进阶：标准引体向上'},
+      {id:'u7',no:'4.2',name:'胸｜肩屈+肩水平收｜TRX俯卧撑 / 俯卧撑',sets:'3组',rm:'15RM',ref:'',tips:''},
+      {id:'u8',no:'5.1',name:'背-下｜肩伸｜TRX划船',sets:'3组',rm:'15RM',ref:'',tips:'进阶：飞鸟划船转十字→单臂划船转体→平板支撑壶铃划船'},
+      {id:'u9',no:'5.2',name:'肩-中｜肩屈｜面向墙下蹲壶铃上举',sets:'3组',rm:'15RM',ref:'4kg×2',tips:'夹肘/肩胛稳定'},
+      {id:'u10',no:'6.',name:'肩-后｜肩水平展｜单腿俯身屈髋后踩墙飞鸟',sets:'2组',rm:'12RM',ref:'2.5kg×2',tips:''},
+      {id:'u11',no:'7.1',name:'肱三｜颈后臂屈伸 / TRX站姿直臂向前俯身',sets:'3组',rm:'15RM',ref:'5kg',tips:''},
+      {id:'u12',no:'7.2',name:'背-下/握力｜双手Y字上举握力器',sets:'3组',rm:'50RM',ref:'(40kg)',tips:'头后抗阻瑜伽球'},
+    ]},
+  ]},
+  lower: { label:'臀腿', sections:[
+    { title:'激活组', exs:[
+      {id:'l1',no:'1.1',name:'大腿前侧｜勾脚抬腿（仰）',sets:'2组',rm:'30RM',ref:'弹力带/4KG壶铃×2',tips:'两脚弹力带抗阻'},
+      {id:'l2',no:'1.2',name:'小腿前侧｜勾绷脚背（仰）',sets:'2组',rm:'30RM',ref:'弹力带',tips:'两脚弹力带抗阻'},
+      {id:'l2b',no:'1.3',name:'小腿后侧｜TRX前斜板提踵下压',sets:'2组',rm:'30RM',ref:'弹力带',tips:''},
+      {id:'l3',no:'2.1',name:'臀+后侧｜TRX臀桥腿弯举（仰）/ 臀桥髋外展对抗',sets:'3组',rm:'15RM',ref:'弹力带/普拉提圈',tips:'膝盖带'},
+      {id:'l4',no:'2.2',name:'臀外｜四足支撑提膝髋外展（俯）',sets:'3组',rm:'30RM',ref:'弹力带',tips:''},
+      {id:'l5',no:'3.',name:'核心｜双手上举坐后仰',sets:'2组',rm:'30s',ref:'4kg→可负重',tips:'Y字坐/踩地坐，脚趾带/膝盖带'},
+    ]},
+    { title:'硬拉类', exs:[
+      {id:'l6',no:'4.',name:'拉｜单腿硬拉',sets:'3组',rm:'20RM',ref:'',tips:'脚趾带，进阶：分腿→两点支撑→扶墙→标准→节奏→低点强化'},
+      {id:'l7',no:'4.*',name:'摆｜壶铃摇摆',sets:'3组',rm:'30RM',ref:'12kg',tips:'脚趾/脚踝带'},
+      {id:'l8',no:'4.*',name:'跪｜跪姿抗阻伸髋\n站｜后蹬墙+手压壶铃静态支撑',sets:'',rm:'',ref:'',tips:'双手前平举/前举药球'},
+    ]},
+    { title:'深蹲类', exs:[
+      {id:'l9',no:'5.',name:'蹲｜壶铃负重深蹲',sets:'3组',rm:'15RM',ref:'12kg',tips:'胸前/颈后，脚趾带/膝盖带'},
+      {id:'l10',no:'5.*',name:'弓箭｜单腿弓箭步 / TRX屈膝礼蹲',sets:'2组',rm:'15RM',ref:'6kg',tips:'前侧脚踝弹力带向前阻力辅助→脚趾带'},
+      {id:'l11',no:'5.*',name:'站｜站姿贴墙静态后蹲 / 俯身屈髋静态站姿',sets:'',rm:'',ref:'',tips:'脚趾/膝盖带'},
+    ]},
+    { title:'臀推类', exs:[
+      {id:'l12',no:'7.',name:'推｜单腿臀推 / 杠铃臀推',sets:'2组',rm:'15RM',ref:'50–60kg',tips:'⚠️ 5.18记录：右腿推左腰痛，注意'},
+    ]},
+    { title:'臀外展 / 臀内收', exs:[
+      {id:'l13',no:'8.',name:'外侧｜侧向走',sets:'3组',rm:'50步×2',ref:'弹力带抗阻',tips:'脚趾/膝盖带'},
+      {id:'l14',no:'8.*',name:'外侧｜侧平板抬腿 / 卧侧后方踢腿',sets:'',rm:'',ref:'',tips:''},
+      {id:'l15',no:'9.',name:'内侧｜TRX内收肌盆底肌训练',sets:'2组',rm:'15RM×2',ref:'',tips:'单腿站立另侧侧向打开'},
+    ]},
+  ]},
+  core: { label:'足踝+核心', sections:[
+    { title:'足底', exs:[
+      {id:'f1',no:'',name:'足｜欧阳春晓10min',sets:'1组',rm:'/',ref:'',tips:''},
+    ]},
+    { title:'踝灵活', exs:[
+      {id:'a1',no:'',name:'踝｜90-90变式 15min',sets:'1组',rm:'/',ref:'',tips:''},
+    ]},
+    { title:'核心', exs:[
+      {id:'c1',no:'1.',name:'下腹｜凳上脚踝夹普拉提圈向上卷腹',sets:'2组',rm:'15RM',ref:'',tips:''},
+      {id:'c2',no:'2.',name:'侧腹｜侧平板壶铃上举支撑',sets:'2组',rm:'30s',ref:'4kg',tips:''},
+      {id:'c3',no:'3.',name:'TRX健腹轮式',sets:'2组',rm:'15RM',ref:'',tips:'跪姿',tipsWarn:true},
+      {id:'c4',no:'4.',name:'双腿夹球45°上举（仰）（可选）',sets:'2组',rm:'30s',ref:'',tips:''},
+      {id:'c6',no:'5.',name:'TRX长矛',sets:'2组',rm:'15RM',ref:'',tips:'倒V折叠回平板支撑',tipsWarn:true},
+      {id:'c7',no:'6.',name:'TRX平板卷腹',sets:'2组',rm:'15RM',ref:'',tips:'平板支撑后卷腹后蹬腿',tipsWarn:true},
+    ]},
+  ]},
+};
 
-    document.getElementById('loading').style.display = 'none';
-
-    renderCheckin();
-    renderCiCal();
-    switchPlan('upper');
-  } catch(e) {
-    console.error('加载 data.json 失败', e);
-    document.getElementById('loading').innerHTML = `
-      <div style="font-size:24px;">⚠️</div>
-      <div>数据加载失败，请确保您在支持HTTP协议的环境下运行。</div>
-      <div style="font-size:12px;opacity:0.7;max-width:300px;text-align:center;margin-top:8px;">本地双击打开 HTML 可能因为跨域限制无法读取 data.json。请尝试使用 VS Code Live Server 插件。</div>
-    `;
-  }
-}
+// ═══ PRESET LOGS ═══
+const PRESET_LOGS = [
+  {id:'p-lower-0610',date:'2026-06-10T10:00:00',plan:'lower',planLabel:'臀腿',results:[
+    {id:'l1',weight:'o（完成）',note:''},{id:'l2',weight:'o（完成）',note:''},
+    {id:'l3',weight:'o（完成）',note:''},{id:'l4',weight:'o（完成）',note:''},
+    {id:'l5',weight:'4.0kg',note:''},{id:'l6',weight:'两点/扶墙',note:''},
+    {id:'l7',weight:'10.9kg',note:''},{id:'l9',weight:'6.8kg',note:'颈后'},
+    {id:'l10',weight:'/',note:''},{id:'l12',weight:'/',note:''},
+    {id:'l13',weight:'o（完成）',note:''},{id:'l15',weight:'o（完成）',note:''},
+  ]},
+  {id:'p-upper-0608',date:'2026-06-08T10:00:00',plan:'upper',planLabel:'上肢',results:[
+    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'10.9kgx2',note:''},
+    {id:'u3',weight:'10.9kg',note:''},{id:'u4',weight:'5.5kg',note:''},
+    {id:'u5',weight:'4.0kgx2',note:''},{id:'u6',weight:'o（完成）',note:''},
+    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
+    {id:'u9',weight:'4.0kgx2',note:''},{id:'u10',weight:'4.0kgx2',note:''},
+    {id:'u11',weight:'/',note:''},{id:'u12',weight:'/',note:''},
+  ]},
+  {id:'p-upper-0520',date:'2026-05-20T10:00:00',plan:'upper',planLabel:'上肢',results:[
+    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'o（完成）',note:''},
+    {id:'u3',weight:'o（完成）',note:''},{id:'u4',weight:'5.5kg',note:''},
+    {id:'u5',weight:'2.7kgx2',note:''},{id:'u6',weight:'o（完成）',note:''},
+    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
+    {id:'u9',weight:'4.0kgx2',note:''},{id:'u10',weight:'2.7kgx2',note:''},
+    {id:'u11',weight:'o（完成）',note:''},{id:'u12',weight:'o（完成）',note:''},
+  ]},
+  {id:'p-lower-0518',date:'2026-05-18T10:00:00',plan:'lower',planLabel:'臀腿',results:[
+    {id:'l1',weight:'o（完成）',note:''},{id:'l2',weight:'o（完成）',note:''},
+    {id:'l3',weight:'o（完成）',note:''},{id:'l4',weight:'o（完成）',note:''},
+    {id:'l5',weight:'2.0kg',note:''},{id:'l6',weight:'两点支撑',note:''},
+    {id:'l7',weight:'9.5kg',note:''},{id:'l9',weight:'8.2kg',note:'胸前'},
+    {id:'l10',weight:'/',note:''},{id:'l12',weight:'10.9kg',note:'右腿推左腰痛'},
+    {id:'l13',weight:'/',note:''},{id:'l15',weight:'o（完成）',note:''},
+  ]},
+  {id:'p-upper-0513',date:'2026-05-13T10:00:00',plan:'upper',planLabel:'上肢',results:[
+    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'o（完成）',note:''},
+    {id:'u3',weight:'/',note:''},{id:'u4',weight:'4.0kg',note:''},
+    {id:'u5',weight:'2.0kgx2',note:''},{id:'u6',weight:'/',note:''},
+    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
+    {id:'u9',weight:'2.0kgx2',note:''},{id:'u10',weight:'2.0kgx2',note:''},
+    {id:'u11',weight:'o（完成）',note:''},{id:'u12',weight:'/',note:''},
+  ]},
+];
 
 // ═══ STORAGE ═══
+// 11 historical checkin records for calendar display only (5月7日团课excluded — correction not a real session)
+const PRESET_CHECKINS = [
+  {id:'pc-0422-1',date:'2026-04-22T10:00:00',project:'骑行',    amount:0},
+  {id:'pc-0422-2',date:'2026-04-22T11:00:00',project:'瑜伽',    amount:66},
+  {id:'pc-0424-1',date:'2026-04-24T10:00:00',project:'墨菲私教',amount:300},
+  {id:'pc-0508-1',date:'2026-05-08T10:00:00',project:'骑行',    amount:5},
+  {id:'pc-0511-1',date:'2026-05-11T10:00:00',project:'居家训练',amount:222},
+  {id:'pc-0513-1',date:'2026-05-13T10:00:00',project:'居家训练',amount:727},
+  {id:'pc-0518-1',date:'2026-05-18T10:00:00',project:'居家训练',amount:78},
+  {id:'pc-0520-1',date:'2026-05-20T10:00:00',project:'居家训练',amount:0},
+  {id:'pc-0608-1',date:'2026-06-08T10:00:00',project:'居家训练',amount:0},
+  {id:'pc-0609-1',date:'2026-06-09T10:00:00',project:'骑行',    amount:5},
+  {id:'pc-0610-1',date:'2026-06-10T10:00:00',project:'居家训练',amount:0},
+];
+
 const LS = key => { try { return JSON.parse(localStorage.getItem(key)||'[]'); } catch { return []; } };
 const SS = (key,val) => localStorage.setItem(key, JSON.stringify(val));
-
 // Returns user-added checkins merged with preset history (for calendar display)
 const getCheckins = () => {
   const saved = LS('checkins');
@@ -413,7 +542,7 @@ const getCheckins = () => {
   const merged = [...saved, ...PRESET_CHECKINS.filter(p => !savedIds.has(p.id))];
   return merged.sort((a,b) => new Date(b.date)-new Date(a.date));
 };
-// Returns only user-added checkins (for saving and EXPORT)
+// Returns only user-added checkins (for saving)
 const getRawCheckins = () => LS('checkins');
 const getCustomProj = () => LS('custom_projs');
 const getLogs = () => {
@@ -425,6 +554,7 @@ const saveLogs = d => SS('training_logs', d.filter(l=>!String(l.id).startsWith('
 
 // ═══ STATS ═══
 function getStats() {
+  // Use only user-added checkins for delta (PRESET_PROJ already includes historical data)
   const ci = getRawCheckins();
   const pm = {};
   PRESET_PROJ.forEach(p => { pm[p.name]={count:p.count,total:p.total}; });
@@ -456,7 +586,7 @@ function renderCheckin() {
   cb.className = 'prog-fill' + (cp>=100?' done':'');
 
   // month grid
-  const ci = getRawCheckins(); 
+  const ci = getRawCheckins(); // only user-added, avoids double-counting
   const mm = {};
   PRESET_MONTH.forEach(m => { mm[m.m]={c:m.c}; });
   ci.forEach(c => {
@@ -529,16 +659,19 @@ function saveCheckin() {
   ci.unshift({id:Date.now(),date:new Date().toISOString(),project:proj,amount:amt});
   SS('checkins',ci);
   closeModal(); renderCheckin(); renderCiCal();
+  // also refresh manage list if open
 }
 
 // ═══ RENDER: PLAN ═══
 let curPlan='upper';
 function lastW(eid) {
+  // Returns last real weight (kg values), skips completion markers
   const skipVals = new Set(['','/','/（未进行）','o（完成）','o','两点支撑','两点/扶墙','划船']);
   for(const log of getLogs()){
     if(!log.results) continue;
     const r=log.results.find(x=>x.id===eid);
     if(r && r.weight && !skipVals.has(r.weight)) {
+      // append note if meaningful
       const note = r.note && r.note!=='/' ? r.note : '';
       return r.weight + note;
     }
@@ -552,13 +685,17 @@ function switchPlan(k) {
   renderPlan();
 }
 
+// Extract 【content】 and （content） from name string into tips array
 function extractBrackets(name) {
   const tips = [];
+  // Extract 【...】
   const re1 = /【([^】]+)】/g;
   let m;
   while((m=re1.exec(name))!==null) tips.push(m[1]);
+  // Extract （...）
   const re2 = /（([^）]+)）/g;
   while((m=re2.exec(name))!==null) tips.push(m[1]);
+  // Remove them from display name
   const cleanName = name.replace(/【[^】]+】/g,'').replace(/（[^）]+）/g,'').trim();
   return {cleanName, tips};
 }
@@ -582,11 +719,12 @@ function renderPlan() {
     sec.exs.forEach(ex=>{
       const lw=lastW(ex.id);
       const refStr = lw ? `<span class="ref">上次：${lw}</span>` : (ex.ref?`<span class="ref">参考：${ex.ref}</span>`:'');
-      const meta = [ex.sets&&ex.rm?`${ex.sets} · ${ex.rm}`:(ex.sets||ex.rm||''), refStr].filter(Boolean).join(' ');
+      const meta = [ex.sets&&ex.rm?`${ex.sets} · ${ex.rm}`:(ex.sets||ex.rm||''), refStr].filter(Boolean).join('　');
       const noLabel = ex.no && ex.no!=='*' ? `<span style="color:var(--p);font-weight:700;margin-right:4px;">${ex.no}</span>` : '';
+      // Extract brackets from name for yellow tips
       const {cleanName, tips: bracketTips} = extractBrackets(ex.name);
       const displayName = cleanName.replace(/\n/g,'<br>');
-      
+      // Build tips — all on one line, comma separated
       let tipsHtml = '';
       const allTips = [];
       if(ex.tips) allTips.push(ex.tips);
@@ -614,7 +752,7 @@ function saveRec() {
     const w=document.getElementById('ew-'+ex.id)?.value||'';
     const n=document.getElementById('en-'+ex.id)?.value.trim()||'';
     if(w||n) hasInput=true;
-    results.push({id:ex.id,weight:w||'',note:n});
+    results.push({id:ex.id,weight:w||'',note:n}); // empty = not performed
   }));
   if(!hasInput){alert('请至少填写一个动作');return;}
   const logs=getLogs().filter(l=>!String(l.id).startsWith('p-'));
@@ -624,6 +762,7 @@ function saveRec() {
     const w=document.getElementById('ew-'+ex.id), n=document.getElementById('en-'+ex.id);
     if(w)w.value=''; if(n)n.value='';
   }));
+  // Auto-checkin: 居家训练 0元
   autoCheckinHome();
   alert('✅ 训练记录已保存！已自动打卡「居家训练」');
   go('history');
@@ -631,11 +770,13 @@ function saveRec() {
 
 function autoCheckinHome() {
   const todayKey = new Date().toISOString().slice(0,10);
+  // Check both preset and user checkins for today
   const alreadyToday = getCheckins().some(c => c.project==='居家训练' && c.date.startsWith(todayKey));
   if(alreadyToday) return;
   const ci = getRawCheckins();
   ci.unshift({id: Date.now(), date: new Date().toISOString(), project:'居家训练', amount:0});
   SS('checkins', ci);
+  // Refresh all checkin displays
   renderCheckin();
   renderCiCal();
 }
@@ -663,6 +804,7 @@ function renderCmpTable(planKey) {
   const dhs=logs.map(l=>{const d=new Date(l.date);return{date:`${d.getMonth()+1}/${d.getDate()}`,wd:`周${WDS[d.getDay()]}`};});
   const lkp=logs.map(log=>{const m={};(log.results||[]).forEach(r=>m[r.id]=r);return m;});
 
+  // Build ordered exercise list from plan
   const exList=[];
   plan.sections.forEach(sec=>sec.exs.forEach(ex=>exList.push({...ex,sec:sec.title})));
 
@@ -690,10 +832,12 @@ function renderCmpTable(planKey) {
   return h;
 }
 
+// Calendar state
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
 
 function renderSummary() {
   const logs=getLogs();
+  // Build date map: 'YYYY-MM-DD' -> [planKey, ...]
   const dateMap={};
   logs.forEach(l=>{
     const d=new Date(l.date);
@@ -702,15 +846,16 @@ function renderSummary() {
     if(!dateMap[key].includes(l.plan)) dateMap[key].push(l.plan);
   });
 
-  const tagLabel={upper:'上肢',lower:'臀腿',core:'足髋+核心'};
+  const tagLabel={upper:'上肢',lower:'臀腿',core:'足踝+核心'};
   const tagCls={upper:'ctag-upper',lower:'ctag-lower',core:'ctag-core'};
 
   const today=new Date();
   const firstDay=new Date(calYear,calMonth,1);
   const lastDay=new Date(calYear,calMonth+1,0);
-  const startDow=firstDay.getDay(); 
+  const startDow=firstDay.getDay(); // 0=Sun
   const daysInMonth=lastDay.getDate();
 
+  // Counts for this month
   const mKey=`${calYear}-${String(calMonth+1).padStart(2,'0')}`;
   const mLogs=logs.filter(l=>l.date.startsWith(mKey));
   const cnt={upper:0,lower:0,core:0};
@@ -718,6 +863,7 @@ function renderSummary() {
 
   let h=`<div>`;
 
+  // Nav
   const mNames=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
   h+=`<div class="cal-nav">
     <button onclick="calPrev()">‹</button>
@@ -725,44 +871,52 @@ function renderSummary() {
     <button onclick="calNext()">›</button>
   </div>`;
 
+  // Legend
   h+=`<div class="cal-legend">
     <div class="cl-item"><div class="cl-dot" style="background:#EDE9FB;border:.5px solid #C4B5FD;"></div>上肢</div>
     <div class="cl-item"><div class="cl-dot" style="background:#FEF3E6;border:.5px solid #FBD38D;"></div>臀腿</div>
-    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足髋+核心</div>
+    <div class="cl-item"><div class="cl-dot" style="background:#EAFAF2;border:.5px solid #9AE6B4;"></div>足踝+核心</div>
   </div>`;
 
+  // DOW headers
   h+=`<div class="cal-grid">`;
   ['日','一','二','三','四','五','六'].forEach(d=>{ h+=`<div class="cal-dow">${d}</div>`; });
+
+  // Leading empty cells
   for(let i=0;i<startDow;i++) h+=`<div class="cal-day other-month"></div>`;
 
+  // Day cells
   for(let d=1;d<=daysInMonth;d++){
     const key=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const plans=dateMap[key]||[];
     const isToday=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
     const cls=['cal-day', plans.length?'has-log':'', isToday?'today':''].filter(Boolean).join(' ');
     let tags='';
+    // Order: upper, lower, core
     ['upper','lower','core'].forEach(pk=>{
       if(plans.includes(pk)) tags+=`<div class="ctag ${tagCls[pk]}">${tagLabel[pk]}</div>`;
     });
     h+=`<div class="${cls}"><div class="cal-dn">${d}</div><div class="cal-tags">${tags}</div></div>`;
   }
 
+  // Trailing empty cells
   const trailing=(7-((startDow+daysInMonth)%7))%7;
   for(let i=0;i<trailing;i++) h+=`<div class="cal-day other-month"></div>`;
-  h+=`</div>`; 
+  h+=`</div>`; // cal-grid
 
+  // Monthly + cumulative summary counts
   const allCnt={upper:0,lower:0,core:0};
   logs.forEach(l=>{ if(allCnt[l.plan]!==undefined) allCnt[l.plan]++; });
   h+=`<div class="cal-summary-row">
     <div class="cal-sum-item"><div class="cal-sum-val">${cnt.upper}</div><div class="cal-sum-lbl">上肢/月</div></div>
     <div class="cal-sum-item"><div class="cal-sum-val">${cnt.lower}</div><div class="cal-sum-lbl">臀腿/月</div></div>
-    <div class="cal-sum-item"><div class="cal-sum-val">${cnt.core}</div><div class="cal-sum-lbl">足髋/月</div></div>
+    <div class="cal-sum-item"><div class="cal-sum-val">${cnt.core}</div><div class="cal-sum-lbl">足底/月</div></div>
     <div class="cal-sum-item"><div class="cal-sum-val" style="color:var(--t2);">${mLogs.length}</div><div class="cal-sum-lbl">本月合计</div></div>
   </div>
   <div class="cal-summary-row" style="background:var(--pll);">
     <div class="cal-sum-item"><div class="cal-sum-val" style="font-size:15px;">${allCnt.upper}</div><div class="cal-sum-lbl">上肢累计</div></div>
     <div class="cal-sum-item"><div class="cal-sum-val" style="font-size:15px;">${allCnt.lower}</div><div class="cal-sum-lbl">臀腿累计</div></div>
-    <div class="cal-sum-item"><div class="cal-sum-val" style="font-size:15px;">${allCnt.core}</div><div class="cal-sum-lbl">足髋累计</div></div>
+    <div class="cal-sum-item"><div class="cal-sum-val" style="font-size:15px;">${allCnt.core}</div><div class="cal-sum-lbl">足底累计</div></div>
     <div class="cal-sum-item"><div class="cal-sum-val" style="font-size:15px;color:var(--p);">${logs.length}</div><div class="cal-sum-lbl">累计合计</div></div>
   </div>`;
 
@@ -770,8 +924,14 @@ function renderSummary() {
   return h;
 }
 
-function calPrev(){ calMonth--; if(calMonth<0){calMonth=11;calYear--;} document.getElementById('hist-container').innerHTML=renderSummary(); }
-function calNext(){ calMonth++; if(calMonth>11){calMonth=0;calYear++;} document.getElementById('hist-container').innerHTML=renderSummary(); }
+function calPrev(){
+  calMonth--; if(calMonth<0){calMonth=11;calYear--;}
+  document.getElementById('hist-container').innerHTML=renderSummary();
+}
+function calNext(){
+  calMonth++; if(calMonth>11){calMonth=0;calYear++;}
+  document.getElementById('hist-container').innerHTML=renderSummary();
+}
 
 function renderHistory() {
   const c=document.getElementById('hist-container');
@@ -793,16 +953,10 @@ function switchManageTab(tab) {
 function go(name) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  
   document.getElementById('page-'+name).classList.add('active');
-  
-  const navBtn = document.getElementById('nav-'+name);
-  if(navBtn) navBtn.classList.add('on');
-  
-  document.getElementById('fab').style.display = name === 'checkin' ? 'flex' : 'none';
-  document.getElementById('fab-manage').style.display = name === 'history' ? 'flex' : 'none';
+  document.getElementById('nav-'+name).classList.add('on');
+  document.getElementById('fab').style.display=name==='checkin'?'flex':'none';
   document.getElementById('sc').scrollTop=0;
-  
   if(name==='history') renderHistory();
   if(name==='manage')  switchManageTab(curManageTab);
   if(name==='record'){
@@ -816,7 +970,7 @@ function go(name) {
 function exportData() {
   const data = {
     exportedAt: new Date().toISOString(),
-    checkins: getRawCheckins(), // 🔥 FIXED: EXPORT ONLY RAW CHECKINS, NO PRESETS
+    checkins: getCheckins(),
     training_logs: JSON.parse(localStorage.getItem('training_logs')||'[]'),
     custom_projs: JSON.parse(localStorage.getItem('custom_projs')||'[]'),
   };
@@ -852,6 +1006,7 @@ function importData(evt) {
 // ═══ CHECKIN CALENDAR ═══
 let ciCalYear=new Date().getFullYear(), ciCalMonth=new Date().getMonth();
 
+// Generate a stable color for any project name
 function projColor(name) {
   const palette = [
     {bg:'#EDE9FB',fg:'#5B21B6'},{bg:'#FEF3E6',fg:'#A0560A'},
@@ -867,7 +1022,9 @@ function projColor(name) {
 function renderCiCal() {
   const container = document.getElementById('ci-cal-container');
   if(!container) return;
+
   const ci = getCheckins();
+  // Build date map: 'YYYY-MM-DD' -> [projectName, ...]
   const dateMap = {};
   ci.forEach(c => {
     const d = new Date(c.date);
@@ -912,15 +1069,26 @@ function renderCiCal() {
   container.innerHTML=h;
 }
 
-function ciCalPrev(){ ciCalMonth--; if(ciCalMonth<0){ciCalMonth=11;ciCalYear--;} renderCiCal(); }
-function ciCalNext(){ ciCalMonth++; if(ciCalMonth>11){ciCalMonth=0;ciCalYear++;} renderCiCal(); }
+function ciCalPrev(){
+  ciCalMonth--; if(ciCalMonth<0){ciCalMonth=11;ciCalYear--;}
+  renderCiCal();
+}
+function ciCalNext(){
+  ciCalMonth++; if(ciCalMonth>11){ciCalMonth=0;ciCalYear++;}
+  renderCiCal();
+}
 
 // ═══ EDIT / DELETE — CHECKINS ═══
+function openCiList() {
+  // Renders editable checkin list inside history page (called from a dedicated view)
+}
+
 let openCiItemId = null;
 function toggleCiItem(id) {
   const actions = document.getElementById('cia-'+id);
   const chev = document.getElementById('cichev-'+id);
   if(!actions) return;
+  // close all others
   document.querySelectorAll('.rec-actions').forEach(el => { el.classList.remove('open'); });
   document.querySelectorAll('.rec-chevron').forEach(el => { el.classList.remove('open'); });
   if(openCiItemId === id) { openCiItemId=null; return; }
@@ -934,6 +1102,7 @@ function openEditCi(id) {
   const item = all.find(c=>String(c.id)===String(id));
   if(!item) return;
   document.getElementById('edit-ci-id').value = id;
+  // rebuild project select
   const sel = document.getElementById('edit-ci-proj');
   const all_projs = [...DEF_PROJS, ...getCustomProj()];
   sel.innerHTML = all_projs.map(p=>`<option value="${p}"${p===item.project?' selected':''}>${p}</option>`).join('');
@@ -947,6 +1116,7 @@ function saveEditCi() {
   const proj = document.getElementById('edit-ci-proj').value;
   const amt = parseInt(document.getElementById('edit-ci-amt').value)||0;
   const dateVal = document.getElementById('edit-ci-date').value;
+  // Only user-added records can be edited
   const ci = getRawCheckins();
   const idx = ci.findIndex(c=>String(c.id)===String(id));
   if(idx===-1){ alert('预置历史记录不可编辑'); closeEditCi(); return; }
@@ -1029,7 +1199,7 @@ function fmtDate(dateStr) {
 function renderCheckinEditList() {
   const c = document.getElementById('ci-edit-list');
   if(!c) return;
-  const all = getCheckins(); 
+  const all = getCheckins(); // includes presets for display
   if(!all.length){ c.innerHTML='<div class="empty"><div class="ei">📭</div><div>暂无打卡记录</div></div>'; return; }
   const raw = new Set(getRawCheckins().map(x=>String(x.id)));
   let h='<div class="rec-list">';
@@ -1094,8 +1264,10 @@ function renderTrainingEditList() {
   c.innerHTML=h;
 }
 
-// ═══ INIT START ═══
-initApp();
+// ═══ INIT ═══
+renderCheckin();
+renderCiCal();
+switchPlan('upper');
 </script>
 </body>
 </html>
