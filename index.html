@@ -386,17 +386,7 @@ const WDS = ['日','一','二','三','四','五','六'];
 
 const DEF_PROJS = ['墨菲私教','居家训练','瑜伽','复德康复','骑行','攀岩','团课','徒步','FitnessBoxing','Ringfit'];
 
-const PRESET_PROJ = [
-  {name:'墨菲私教',count:14,total:3879},{name:'居家训练',count:6,total:1027},
-  {name:'瑜伽',count:5,total:287},{name:'复德康复',count:2,total:299},
-  {name:'攀岩',count:1,total:49},{name:'骑行',count:8,total:20},
-  {name:'团课',count:2,total:0},{name:'徒步',count:5,total:0},
-  {name:'FitnessBoxing',count:4,total:0},{name:'Ringfit',count:3,total:0},
-];
-const PRESET_MONTH = [
-  {m:'1月',c:7},{m:'2月',c:5},{m:'3月',c:14},{m:'4月',c:16},{m:'5月',c:5},{m:'6月',c:3},
-];
-const PRESET_AMT = 5561, PRESET_CNT = 50;
+// No hardcoded preset data — all history lives in the JSON backup (baseline + individual records)
 
 const WOPTS = [
   {v:'',l:'重量/强度（选填）'},{v:'o（完成）',l:'o（完成）'},
@@ -473,99 +463,32 @@ const PLANS = {
   ]},
 };
 
-// ═══ PRESET LOGS ═══
-const PRESET_LOGS = [
-  {id:'p-lower-0610',date:'2026-06-10T10:00:00',plan:'lower',planLabel:'臀腿',results:[
-    {id:'l1',weight:'o（完成）',note:''},{id:'l2',weight:'o（完成）',note:''},
-    {id:'l3',weight:'o（完成）',note:''},{id:'l4',weight:'o（完成）',note:''},
-    {id:'l5',weight:'4.0kg',note:''},{id:'l6',weight:'两点/扶墙',note:''},
-    {id:'l7',weight:'10.9kg',note:''},{id:'l9',weight:'6.8kg',note:'颈后'},
-    {id:'l10',weight:'/',note:''},{id:'l12',weight:'/',note:''},
-    {id:'l13',weight:'o（完成）',note:''},{id:'l15',weight:'o（完成）',note:''},
-  ]},
-  {id:'p-upper-0608',date:'2026-06-08T10:00:00',plan:'upper',planLabel:'上肢',results:[
-    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'10.9kgx2',note:''},
-    {id:'u3',weight:'10.9kg',note:''},{id:'u4',weight:'5.5kg',note:''},
-    {id:'u5',weight:'4.0kgx2',note:''},{id:'u6',weight:'o（完成）',note:''},
-    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
-    {id:'u9',weight:'4.0kgx2',note:''},{id:'u10',weight:'4.0kgx2',note:''},
-    {id:'u11',weight:'/',note:''},{id:'u12',weight:'/',note:''},
-  ]},
-  {id:'p-upper-0520',date:'2026-05-20T10:00:00',plan:'upper',planLabel:'上肢',results:[
-    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'o（完成）',note:''},
-    {id:'u3',weight:'o（完成）',note:''},{id:'u4',weight:'5.5kg',note:''},
-    {id:'u5',weight:'2.7kgx2',note:''},{id:'u6',weight:'o（完成）',note:''},
-    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
-    {id:'u9',weight:'4.0kgx2',note:''},{id:'u10',weight:'2.7kgx2',note:''},
-    {id:'u11',weight:'o（完成）',note:''},{id:'u12',weight:'o（完成）',note:''},
-  ]},
-  {id:'p-lower-0518',date:'2026-05-18T10:00:00',plan:'lower',planLabel:'臀腿',results:[
-    {id:'l1',weight:'o（完成）',note:''},{id:'l2',weight:'o（完成）',note:''},
-    {id:'l3',weight:'o（完成）',note:''},{id:'l4',weight:'o（完成）',note:''},
-    {id:'l5',weight:'2.0kg',note:''},{id:'l6',weight:'两点支撑',note:''},
-    {id:'l7',weight:'9.5kg',note:''},{id:'l9',weight:'8.2kg',note:'胸前'},
-    {id:'l10',weight:'/',note:''},{id:'l12',weight:'10.9kg',note:'右腿推左腰痛'},
-    {id:'l13',weight:'/',note:''},{id:'l15',weight:'o（完成）',note:''},
-  ]},
-  {id:'p-upper-0513',date:'2026-05-13T10:00:00',plan:'upper',planLabel:'上肢',results:[
-    {id:'u1',weight:'o（完成）',note:''},{id:'u2',weight:'o（完成）',note:''},
-    {id:'u3',weight:'/',note:''},{id:'u4',weight:'4.0kg',note:''},
-    {id:'u5',weight:'2.0kgx2',note:''},{id:'u6',weight:'/',note:''},
-    {id:'u7',weight:'o（完成）',note:''},{id:'u8',weight:'o（完成）',note:'划船'},
-    {id:'u9',weight:'2.0kgx2',note:''},{id:'u10',weight:'2.0kgx2',note:''},
-    {id:'u11',weight:'o（完成）',note:''},{id:'u12',weight:'/',note:''},
-  ]},
-];
-
 // ═══ STORAGE ═══
-// 11 historical checkin records for calendar display only (5月7日团课excluded — correction not a real session)
-const PRESET_CHECKINS = [
-  {id:'pc-0422-1',date:'2026-04-22T10:00:00',project:'骑行',    amount:0},
-  {id:'pc-0422-2',date:'2026-04-22T11:00:00',project:'瑜伽',    amount:66},
-  {id:'pc-0424-1',date:'2026-04-24T10:00:00',project:'墨菲私教',amount:300},
-  {id:'pc-0508-1',date:'2026-05-08T10:00:00',project:'骑行',    amount:5},
-  {id:'pc-0511-1',date:'2026-05-11T10:00:00',project:'居家训练',amount:222},
-  {id:'pc-0513-1',date:'2026-05-13T10:00:00',project:'居家训练',amount:727},
-  {id:'pc-0518-1',date:'2026-05-18T10:00:00',project:'居家训练',amount:78},
-  {id:'pc-0520-1',date:'2026-05-20T10:00:00',project:'居家训练',amount:0},
-  {id:'pc-0608-1',date:'2026-06-08T10:00:00',project:'居家训练',amount:0},
-  {id:'pc-0609-1',date:'2026-06-09T10:00:00',project:'骑行',    amount:5},
-  {id:'pc-0610-1',date:'2026-06-10T10:00:00',project:'居家训练',amount:0},
-];
-
 const LS = key => { try { return JSON.parse(localStorage.getItem(key)||'[]'); } catch { return []; } };
 const SS = (key,val) => localStorage.setItem(key, JSON.stringify(val));
-// Returns user-added checkins merged with preset history (for calendar display)
-const getCheckins = () => {
-  const saved = LS('checkins');
-  const savedIds = new Set(saved.map(c => String(c.id)));
-  const merged = [...saved, ...PRESET_CHECKINS.filter(p => !savedIds.has(p.id))];
-  return merged.sort((a,b) => new Date(b.date)-new Date(a.date));
-};
-// Returns only user-added checkins (for saving)
+// All records live in localStorage (loaded from JSON backup on first use)
+const getCheckins    = () => LS('checkins').sort((a,b)=>new Date(b.date)-new Date(a.date));
 const getRawCheckins = () => LS('checkins');
-const getCustomProj = () => LS('custom_projs');
-const getLogs = () => {
-  const saved = LS('training_logs');
-  const ids = new Set(saved.map(l=>l.id));
-  return [...saved, ...PRESET_LOGS.filter(p=>!ids.has(p.id))].sort((a,b)=>new Date(b.date)-new Date(a.date));
-};
-const saveLogs = d => SS('training_logs', d.filter(l=>!String(l.id).startsWith('p-')));
+const getCustomProj  = () => LS('custom_projs');
+// baseline: aggregate stats for pre-individual-tracking history (loaded from JSON backup)
+const getBaseline = () => { try { return JSON.parse(localStorage.getItem('baseline')||'null'); } catch { return null; } };
+const getLogs  = () => LS('training_logs').sort((a,b)=>new Date(b.date)-new Date(a.date));
+const saveLogs = d => SS('training_logs', d);
 
 // ═══ STATS ═══
 function getStats() {
-  // Use only user-added checkins for delta (PRESET_PROJ already includes historical data)
   const ci = getRawCheckins();
+  const bl = getBaseline();
   const pm = {};
-  PRESET_PROJ.forEach(p => { pm[p.name]={count:p.count,total:p.total}; });
+  if(bl && bl.proj) bl.proj.forEach(p => { pm[p.name]={count:p.count,total:p.total}; });
   ci.forEach(c => {
-    if (!pm[c.project]) pm[c.project]={count:0,total:0};
+    if(!pm[c.project]) pm[c.project]={count:0,total:0};
     pm[c.project].count++; pm[c.project].total+=(c.amount||0);
   });
   return {
     projMap: pm,
-    totalAmt: PRESET_AMT + ci.reduce((s,c)=>s+(c.amount||0),0),
-    totalCount: PRESET_CNT + ci.length,
+    totalAmt:   (bl?bl.amount:0) + ci.reduce((s,c)=>s+(c.amount||0),0),
+    totalCount: (bl?bl.count:0)  + ci.length,
   };
 }
 
@@ -586,9 +509,10 @@ function renderCheckin() {
   cb.className = 'prog-fill' + (cp>=100?' done':'');
 
   // month grid
-  const ci = getRawCheckins(); // only user-added, avoids double-counting
+  const ci = getRawCheckins();
+  const bl = getBaseline();
   const mm = {};
-  PRESET_MONTH.forEach(m => { mm[m.m]={c:m.c}; });
+  if(bl && bl.month) bl.month.forEach(m => { mm[m.m]={c:m.c}; });
   ci.forEach(c => {
     const k=(new Date(c.date).getMonth()+1)+'月';
     if(!mm[k]) mm[k]={c:0};
@@ -970,9 +894,10 @@ function go(name) {
 function exportData() {
   const data = {
     exportedAt: new Date().toISOString(),
-    checkins: getCheckins(),
+    baseline:      getBaseline() || null,
+    checkins:      getRawCheckins(),
     training_logs: JSON.parse(localStorage.getItem('training_logs')||'[]'),
-    custom_projs: JSON.parse(localStorage.getItem('custom_projs')||'[]'),
+    custom_projs:  JSON.parse(localStorage.getItem('custom_projs')||'[]'),
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -990,10 +915,13 @@ function importData(evt) {
   reader.onload = e => {
     try {
       const data = JSON.parse(e.target.result);
-      if(data.checkins)      SS('checkins', data.checkins);
+      if(data.baseline      != null) localStorage.setItem('baseline', JSON.stringify(data.baseline));
+      if(data.checkins)      SS('checkins',      data.checkins);
       if(data.training_logs) SS('training_logs', data.training_logs);
-      if(data.custom_projs)  SS('custom_projs', data.custom_projs);
-      alert('✅ 数据导入成功！共导入打卡 '+data.checkins.length+' 条，训练记录 '+data.training_logs.length+' 条');
+      if(data.custom_projs)  SS('custom_projs',  data.custom_projs);
+      const ciCount  = (data.checkins      || []).length;
+      const logCount = (data.training_logs || []).length;
+      alert('✅ 数据导入成功！共导入打卡 '+ciCount+' 条，训练记录 '+logCount+' 条');
       renderCheckin();
       renderCiCal();
     } catch(err) {
@@ -1116,10 +1044,10 @@ function saveEditCi() {
   const proj = document.getElementById('edit-ci-proj').value;
   const amt = parseInt(document.getElementById('edit-ci-amt').value)||0;
   const dateVal = document.getElementById('edit-ci-date').value;
-  // Only user-added records can be edited
+  // All records in localStorage are user-editable
   const ci = getRawCheckins();
   const idx = ci.findIndex(c=>String(c.id)===String(id));
-  if(idx===-1){ alert('预置历史记录不可编辑'); closeEditCi(); return; }
+  if(idx===-1){ alert('记录未找到'); closeEditCi(); return; }
   ci[idx].project = proj;
   ci[idx].amount = amt;
   ci[idx].date = dateVal+'T10:00:00';
@@ -1132,7 +1060,7 @@ function deleteCi(id) {
   if(!confirm('确认删除这条打卡记录？')) return;
   const ci = getRawCheckins();
   const idx = ci.findIndex(c=>String(c.id)===String(id));
-  if(idx===-1){ alert('预置历史记录不可删除'); return; }
+  if(idx===-1) return;
   ci.splice(idx,1);
   SS('checkins', ci);
   openCiItemId=null;
@@ -1167,8 +1095,7 @@ function saveEditLog() {
   const id = document.getElementById('edit-log-id').value;
   const planKey = document.getElementById('edit-log-plan').value;
   const dateVal = document.getElementById('edit-log-date').value;
-  if(String(id).startsWith('p-')){ alert('预置历史记录不可编辑'); closeEditLog(); return; }
-  const logs = getLogs().filter(l=>!String(l.id).startsWith('p-'));
+  const logs = getLogs();
   const idx = logs.findIndex(l=>String(l.id)===String(id));
   if(idx===-1){ alert('记录未找到'); closeEditLog(); return; }
   logs[idx].plan = planKey;
@@ -1181,8 +1108,7 @@ function saveEditLog() {
 }
 function deleteLog(id) {
   if(!confirm('确认删除这条训练记录？')) return;
-  if(String(id).startsWith('p-')){ alert('预置历史记录不可删除'); return; }
-  const logs = getLogs().filter(l=>!String(l.id).startsWith('p-') && String(l.id)!==String(id));
+  const logs = getLogs().filter(l=>String(l.id)!==String(id));
   saveLogs(logs);
   openLogItemId=null;
   renderTrainingEditList();
@@ -1199,19 +1125,16 @@ function fmtDate(dateStr) {
 function renderCheckinEditList() {
   const c = document.getElementById('ci-edit-list');
   if(!c) return;
-  const all = getCheckins(); // includes presets for display
+  const all = getCheckins();
   if(!all.length){ c.innerHTML='<div class="empty"><div class="ei">📭</div><div>暂无打卡记录</div></div>'; return; }
-  const raw = new Set(getRawCheckins().map(x=>String(x.id)));
   let h='<div class="rec-list">';
   all.forEach(item=>{
-    const isPreset = !raw.has(String(item.id));
     const dateStr = fmtDate(item.date);
     const amtStr = item.amount>0?item.amount+'元':'免费';
-    const presetBadge = isPreset?'<span class="badge bp" style="font-size:10px;margin-left:4px;">历史</span>':'';
     h+=`<div class="rec-item">
       <div class="rec-item-hdr" onclick="toggleCiItem('${item.id}')">
         <div>
-          <div class="rec-main">🏅 ${item.project}${presetBadge}</div>
+          <div class="rec-main">🏅 ${item.project}</div>
           <div class="rec-sub">${dateStr}</div>
         </div>
         <div style="display:flex;align-items:center;">
@@ -1220,11 +1143,8 @@ function renderCheckinEditList() {
         </div>
       </div>
       <div class="rec-actions" id="cia-${item.id}">
-        ${isPreset
-          ? `<div style="font-size:12px;color:var(--t3);padding:4px 0;">预置历史记录不可修改</div>`
-          : `<button class="btn-edit" onclick="openEditCi('${item.id}')">✏️ 编辑</button>
-             <button class="btn-del"  onclick="deleteCi('${item.id}')">🗑️ 删除</button>`
-        }
+        <button class="btn-edit" onclick="openEditCi('${item.id}')">✏️ 编辑</button>
+        <button class="btn-del"  onclick="deleteCi('${item.id}')">🗑️ 删除</button>
       </div>
     </div>`;
   });
@@ -1239,24 +1159,19 @@ function renderTrainingEditList() {
   if(!all.length){ c.innerHTML='<div class="empty"><div class="ei">📭</div><div>暂无训练记录</div></div>'; return; }
   let h='<div class="rec-list">';
   all.forEach(item=>{
-    const isPreset = String(item.id).startsWith('p-');
     const dateStr = fmtDate(item.date);
     const planIcon = {upper:'💪',lower:'🦵',core:'🦶'}[item.plan]||'🏋️';
-    const presetBadge = isPreset?'<span class="badge bp" style="font-size:10px;margin-left:4px;">历史</span>':'';
     h+=`<div class="rec-item">
       <div class="rec-item-hdr" onclick="toggleLogItem('${item.id}')">
         <div>
-          <div class="rec-main">${planIcon} ${item.planLabel||''}训练${presetBadge}</div>
+          <div class="rec-main">${planIcon} ${item.planLabel||''}训练</div>
           <div class="rec-sub">${dateStr} · ${item.results?item.results.length:0}个动作</div>
         </div>
         <span class="rec-chevron" id="logchev-${item.id}">▾</span>
       </div>
       <div class="rec-actions" id="loga-${item.id}">
-        ${isPreset
-          ? `<div style="font-size:12px;color:var(--t3);padding:4px 0;">预置历史记录不可修改</div>`
-          : `<button class="btn-edit" onclick="openEditLog('${item.id}')">✏️ 编辑</button>
-             <button class="btn-del"  onclick="deleteLog('${item.id}')">🗑️ 删除</button>`
-        }
+        <button class="btn-edit" onclick="openEditLog('${item.id}')">✏️ 编辑</button>
+        <button class="btn-del"  onclick="deleteLog('${item.id}')">🗑️ 删除</button>
       </div>
     </div>`;
   });
